@@ -26,3 +26,7 @@ optional arguments:
   --feedin FEEDIN    Feed in rate c/kWh (default 9c/kWh)
   --plan PLAN        Monthly plan cost (default $80)
   ```
+
+  The output is data for each month in the meter data plus the total cost for the entire data set.
+
+  Note that the program works on calendar months; Your electricity bills probably dont align with calendar months, so you will need to take this into account when comparing the output of this program with your bills.
