@@ -1,8 +1,20 @@
 from nemreader import read_nem_file
 from pprint import pprint
+import argparse
 
-m = read_nem_file(
-    '/Users/paulw/Downloads/REQ-46972-1_4311113637_20210811153538_INTEGP_INTERVAL_DET.csv')
+parser = argparse.ArgumentParser(description='Process NEM12 using Elysian billing model.')
+parser.add_argument('NEM12file', type=read_nem_file,
+                    help='NEM12 file to be processed')
+parser.add_argument('--sun', type=int, default=22, help = '"Sun" rate in c/kWh (default 22c/kWh)')
+parser.add_argument('--moon', type=int, default=11, help = '"Moon" rate in c/kWh (default 11c/kWh)')
+parser.add_argument('--suninc', type=int, default=150, help = 'Included "Sun" kWh (default 150kWh)')
+parser.add_argument('--mooninc', type=int, default=100, help = 'Included "Moon" kWh (default 100kWh)')
+parser.add_argument('--feedin', type=int, default=9, help = 'Feed in rate c/kWh (default 9c/kWh)')
+parser.add_argument('--plan', type=int, default=80, help = 'Monthly plan cost (default $80)')
+
+args = parser.parse_args()
+
+m = args.NEM12file
 
 powerUsage = {}
 
@@ -25,12 +37,13 @@ for nmi in m.readings:
         powerUsage[key] = monthData
 
 total = 0
+print('Period\tSun usage\tMoon usage\tExport\t\tPeriod cost')
 for key in powerUsage:
     monthData = powerUsage[key]
-    sun = max(0,monthData["sun"] - 150)
-    moon = max(0,monthData["moon"] - 100)
+    sun = max(0,monthData["sun"] - args.suninc)
+    moon = max(0,monthData["moon"] - args.mooninc)
     export = monthData["export"]
-    cost = 80 + 0.22 * sun + 0.11 * moon - export * 0.09
+    cost = args.plan + args.sun/100 * sun + args.moon/100 * moon - export * args.feedin / 100
     total = total + cost
-    print('{} {:.3f}KWh {:.3f}KWh {:.3f}KWh ${:.2f}'.format(key,sun,moon,export,cost))
-print('{:.2f}'.format(total))
+    print('{}\t{:.3f}kWh\t{:.3f}kWh\t{:.3f}kWh\t${:.2f}'.format(key,sun,moon,export,cost))
+print('\nTotal cost ${:.2f}'.format(total))
