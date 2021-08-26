@@ -1,7 +1,7 @@
 # Eleysian Billing
 Analyse NEM12 data to provide billing estimates for Elysian Energy plans
 
-This is a simple Python program to apply [Eleysian Energy's(https://eleysianenergy.com.au) Sun/Moon electricity billing to NEM12 meter data.  
+This is a simple Python program to apply [Eleysian Energy's](https://eleysianenergy.com.au) Sun/Moon electricity billing to NEM12 meter data.  
 
 You can request your metering data from your electricity retailer or distributor.  You need to have an interval ('smart') reader installed to get the billing data you need;  A non-interval meter will not have the timestamped readings that are required.
 
