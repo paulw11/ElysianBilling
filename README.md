@@ -19,11 +19,11 @@ positional arguments:
 
 optional arguments:
   -h, --help         show this help message and exit
-  --sun SUN          "Sun" rate in c/kWh (default 22c/kWh)
-  --moon MOON        "Moon" rate in c/kWh (default 11c/kWh)
+  --sun SUN          "Sun" rate in $/kWh (default $0.22/kWh)
+  --moon MOON        "Moon" rate in $/kWh (default $0.11/kWh)
   --suninc SUNINC    Included "Sun" kWh (default 150kWh)
   --mooninc MOONINC  Included "Moon" kWh (default 100kWh)
-  --feedin FEEDIN    Feed in rate c/kWh (default 9c/kWh)
+  --feedin FEEDIN    Feed in rate c/kWh (default $0.09c/kWh)
   --plan PLAN        Monthly plan cost (default $80)
   ```
 
