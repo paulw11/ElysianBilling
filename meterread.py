@@ -38,16 +38,21 @@ try:
             powerUsage[key] = monthData
 
     total = 0
-    print('Period\tSun usage\tMoon usage\tExport\t\tPeriod cost')
+    credit_forward = 0
+    print('Period\tSun usage\tMoon usage\tExport\t\tPeriod cost\tCarried forward')
     for key in powerUsage:
         monthData = powerUsage[key]
         sun = max(0,monthData["sun"] - args.suninc)
         moon = max(0,monthData["moon"] - args.mooninc)
         export = monthData["export"]
-        cost = args.plan + args.sun * sun + args.moon * moon - export * args.feedin
+        power_cost = args.sun * sun + args.moon * moon - export * args.feedin + credit_forward
+        if power_cost < 0:
+            credit_forward=power_cost
+            power_cost = 0
+        cost = args.plan + power_cost
         total = total + cost
-        print('{}\t{:.3f}kWh\t{:.3f}kWh\t{:.3f}kWh\t${:.2f}'.format(key,sun,moon,export,cost))
-    print('\nTotal cost ${:.2f}'.format(total))
+        print('{}\t{:.3f}kWh\t{:.3f}kWh\t{:.3f}kWh\t${:.2f}\t\t${:.2f}'.format(key,sun,moon,export,cost,-credit_forward))
+    print('\nTotal cost ${:.2f}  Credit carried forward ${:.2f}'.format(total,-credit_forward))
 except FileNotFoundError:
     print("NEM file could not be read")
 except Exception as e:
