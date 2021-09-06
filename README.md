@@ -19,6 +19,7 @@ positional arguments:
 
 optional arguments:
   -h, --help         show this help message and exit
+  --headers          Allow NEM12 files with missing headers
   --sun SUN          "Sun" rate in $/kWh (default $0.22/kWh)
   --moon MOON        "Moon" rate in $/kWh (default $0.11/kWh)
   --suninc SUNINC    Included "Sun" kWh (default 150kWh)
